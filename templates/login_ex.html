@@ -3,53 +3,32 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Login/Register Page</title>
+	<link rel="stylesheet" href="style.css">
 	<style>
-		body {
-			background-color: #F8F8F8;
-			font-family: sans-serif;
-		}
 		h1 {
 			text-align: center;
-			margin-top: 50px;
-		}
-		form {
-			background-color: #FFFFFF;
-			border-radius: 10px;
-			box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-			padding: 40px;
-			width: 400px;
-			margin: auto;
-			margin-top: 50px;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-		}
-		input[type="text"], input[type="email"], input[type="password"] {
-			padding: 10px;
-			border-radius: 5px;
-			border: none;
-			margin-bottom: 20px;
-			width: 100%;
-			box-sizing: border-box;
+			margin-top: 15px;
 		}
 		input[type="submit"] {
-			background-color: #0070C0;
-			color: #FFFFFF;
+			background-color: #8a5c44;
+			color: #e4dfdb;
 			padding: 10px 20px;
 			border: none;
 			border-radius: 5px;
 			cursor: pointer;
 			transition: background-color 0.3s ease-in-out;
+			
 		}
 		input[type="submit"]:hover {
-			background-color: #003C7B;
+			background-color: #634231;
 		}
 		.form-footer {
 			margin-top: 20px;
 			display: flex;
 			justify-content: space-between;
-			align-items: center;
+			align-items: end;
 			width: 100%;
+
 		}
 		.form-footer a {
 			color: #0070C0;
@@ -57,6 +36,7 @@
 			font-size: 14px;
 			font-weight: bold;
 			transition: color 0.3s ease-in-out;
+			
 		}
 		.form-footer a:hover {
 			color: #003C7B;
@@ -69,30 +49,47 @@
 	</style>
 </head>
 <body>
-	<h1>Login or Register</h1>
+	<header>
+		<img src="icon.png" class="icon" alt=" ">
+		<a class="nav-button">
+			для новых пользователей
+		</a>
+		<a class="nav-button">
+			о том как начать с нами работать
+		</a>
+		<a class="nav-button">
+			вход/регистрация
+		</a>
+	
+	</header>
 	<form id="login-form" method="POST" action="/login">
-        <input type="name" name="name" placeholder="Email/Name" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="submit" value="Login">
+		<h1 id="enter">Вход/Регистрация</h1>
+        <input type="text" name="name" placeholder="Имя пользователя" required>
+        <input type="password" name="password" placeholder="Пароль" required>
         <div class="form-footer">
-            <a href="#">Forgot Password?</a>
-            <button type="button" id="register-switch">Register</button>
-        </div>
+			<div class="form-footer-50">
+				<a href="#" class="password-refresh">забыли пароль?</a>
+         	   	<button type="button" class="login-button" id="register-switch">зарегестрироваться</button>
+			</div>
+			<div class="form-footer-50">   
+				<input type="submit" value="войти">
+			</div>
+		</div>
     </form>
     
     <form id="register-form" method="POST" action="/register" style="display: none;">
-        <input type="username" name="username" placeholder="Имя" required>
+        <input type="text" name="username" placeholder="Имя" required>
         <input type="email" name="email" placeholder="Email" required>
         <select name="user-role">
             <option value="0">Поставщик</option>
             <option value="1">Менеджер</option>
             <option value="2">Управляющий</option>
         </select>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="password" name="confirm-password" placeholder="Confirm Password" required>
-        <input type="submit" value="Register">
+        <input type="password" name="password" placeholder="Пароль" required>
+        <input type="password" name="confirm-password" placeholder="Подтвердите пароль" required>
         <div class="form-footer">
-            <button type="button" id="login-switch">Login</button>
+            <button type="button" class="login-button" id="login-switch">войти</button>
+			<input type="submit" value="зарегестрироваться">
         </div>
     </form>
 
