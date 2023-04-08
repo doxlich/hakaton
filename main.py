@@ -20,22 +20,28 @@ def index():
 
     suppliers = []
     for row in suppliers_sheet.iter_rows(min_row=2, values_only=True):
-        name, availability, supplier, *_ = row
+        lol, name, availability, supplier, *_ = row
         suppliers.append((name, availability, supplier))
 
     #print(suppliers)
     products_with_supplier = {}
     for product in products:
         product_name = product[2]
-        print(product_name)
         for supplier in suppliers:
             if product_name in supplier:
-                products_with_supplier[product_name] = supplier
+                if product_name in products_with_supplier:
+                    products_with_supplier[product_name].append(supplier[2])
+                else:
+                    products_with_supplier[product_name] = [supplier[2]]
 
     print(products_with_supplier)
 
     # Render the template with the data
     return render_template('xslx_test.html', data=products)
+
+@app.route('/add')
+def add():
+    return render_template('2.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
