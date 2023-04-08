@@ -55,8 +55,6 @@ def add():
             suppliers_names = set()
             for supplier in suppliers:
                 suppliers_names.add(supplier.supplier)
-            for n in suppliers_names:
-                print(n)
         return render_template('add.html', data=data, suppliers=suppliers_names)
 
 @app.route('/register', methods=['POST'])
