@@ -2,6 +2,9 @@
 <html>
 <head>
 	<title>Product List</title>
+	<link rel="stylesheet" href="style.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<style>
 		table {
 			border-collapse: collapse;
@@ -41,6 +44,19 @@
 	</style>
 </head>
 <body>
+	<header>
+		<img src="icon.png" class="icon" alt=" ">
+		<a class="nav-button">
+			для новых пользователей
+		</a>
+		<a class="nav-button">
+			о том как начать с нами работать
+		</a>
+		<a class="nav-button">
+			вход/регистрация
+		</a>
+	</header>
+	<div class="table-redactor">
 	<table>
 		<thead>
 			<tr>
@@ -78,6 +94,7 @@
 		</select>
 		<button id="add_row">+</button>
 	</div>
+	</div>
     <script>
         const addRowButton = document.getElementById('add_row');
         const table = document.querySelector('table tbody');
@@ -112,5 +129,6 @@
           document.querySelector('input[name="product_count"]').value = '';
         });
       </script>
+	
 </body>
 </html>

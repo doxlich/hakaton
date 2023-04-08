@@ -43,11 +43,10 @@ form {
     align-items: center;
 
 }
-input[type="text"], select, input[type="email"], input[type="password"], input::placeholder {
+input[type="text"], select, input[type="email"], input[type="password"],input[type="number"],  input::placeholder {
     padding: 10px;
     border-radius: 5px;
     border: none;
-    margin-bottom: 20px;
     width: 100%;
     box-sizing: border-box;
     background-color: #8a5c44;
@@ -115,6 +114,9 @@ h2{
 }
 .form-footer-50{
     width: 25%;
+}
+.margin-1{
+    margin-bottom: 20px;
 }
 .login-button{
     margin-top: 15px;
