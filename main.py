@@ -39,7 +39,6 @@ def init():
                     products_with_supplier[product_name].append(supplier[2])
                 else:
                     products_with_supplier[product_name] = [supplier[2]]
-    print(products_with_supplier)
 
 #default login/reister page
 @app.route('/')
@@ -65,7 +64,6 @@ def product():
 @app.route('/prod_sup')
 def parsed():
     global products_with_supplier
-    print(products_with_supplier)
     return render_template('pr_w_sup.html', products=products_with_supplier)
 
 init()
