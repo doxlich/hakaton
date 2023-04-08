@@ -1,4 +1,4 @@
-name;pass;role
-Admin1;admin111;Управляющий
-Admin2;admin111;Поставщик
-Admin3;admin111;Менеджер
+name;email;pass;role
+Admin1;email@mail.ru;admin111;2
+Admin2;email@mail.ru;admin111;0
+Admin3;email@mail.ru;admin111;1
