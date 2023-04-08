@@ -66,6 +66,11 @@ def parsed():
     global products_with_supplier
     return render_template('pr_w_sup.html', products=products_with_supplier)
 
+@app.route('/login_ex')
+def login_ex():
+    global products_with_supplier
+    return render_template('login_ex.html', products=products_with_supplier)
+
 init()
 if __name__ == '__main__':
     app.run(debug=True)
