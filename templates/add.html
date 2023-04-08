@@ -54,7 +54,12 @@
 			{% for row in data %}
 			<tr>
 				<td>{{ row['name'] }}</td>
-				<td><input type="number" name="order_count" value="{{ row.order_count }}" min="0"></td>
+				<td> {{ row["consumption_week"] }} </td>
+				{% if row["name"] in products %}
+					<td><input type="number" name="order_count" value="{{ row.order_count }}" min="0"></td>
+				{% else %}
+					<td><input type="number" name="order_count" value="{{ row.order_count }}" min="0"></td>
+
 				<td><select name="supplier">
 						{% for supplier in suppliers %}
 							{% if supplier == row.supplier %}
@@ -71,6 +76,7 @@
 	</table>
 	<div class="add-row">
 		<input type="text" name="product_name" placeholder="Продукт">
+		<!-- <input type="number" name="consumption_week" placeholder="0" value="0"> -->
 		<input type="number" name="product_count" placeholder="Количество" min="0">
 		<select name="supplier">
 			{% for supplier in suppliers %}

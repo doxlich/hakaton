@@ -48,14 +48,23 @@ def add():
         pass
     elif request.method == 'GET':
         data = []
+        global products
         with open('data/ordered.csv', mode='r', encoding="utf8") as f:
             reader = csv.DictReader(f, delimiter=';')
             for row in reader:
+                row['consumption_week'] = 0
+                for product in products:
+                    if product.name == row['name']:
+                        row['consumption_week'] = float(product.consumption_week.replace(",", "."))
+                        row['order_count'] = float(product.consumption_week.replace(",", "."))
                 data.append(row)
             suppliers_names = set()
             for supplier in suppliers:
                 suppliers_names.add(supplier.supplier)
-        return render_template('add.html', data=data, suppliers=suppliers_names)
+            products_dict = {}
+            for product in products:
+                products_dict[product.name] = product.consumption_week
+        return render_template('add.html', data=data, suppliers=suppliers_names, products=products_dict)
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -91,12 +100,12 @@ def login():
 @app.route('/products_edit')
 def product():
     global products
-    return render_template('products_edit.html', data=products)
+    return render_template('products_edit.html', products=products)
 
 @app.route('/suppliers_edit')
 def parsed():
     global products
-    return render_template('pr_w_sup.html', products=products)
+    return render_template('suppliers_edit.html', suppliers=suppliers)
 
 @app.route('/login_ex')
 def login_ex():

@@ -8,12 +8,11 @@
       </tr>
     </thead>
     <tbody>
-      {% for el in products %}
+      {% for el in suppliers %}
       <tr>
-        <td>{{ el.category }}</td>
-        <td>{{ el.name }}</td>
-        <td>{{ el.consumption_week }}</td>
-        <td>{{ el.consumption_week }}</td>
+        <td>{{ el.product }}</td>
+        <td>{{ el.nomenclature }}</td>
+        <td>{{ el.suppliers }}</td>
         <td>
           <a href="/delete/{{ i }}">Delete</a>
         </td>
