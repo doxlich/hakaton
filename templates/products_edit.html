@@ -1,0 +1,31 @@
+<table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Name</th>
+        <th>Consumption (week)</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for el in products %}
+      <tr>
+        <td>{{ el.category }}</td>
+        <td>{{ el.name }}</td>
+        <td>{{ el.consumption_week }}</td>
+        <td>{{ el.consumption_week }}</td>
+        <td>
+          <a href="/delete/{{ i }}">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
+  <form action="/add" method="post">
+    <input type="text" name="category" placeholder="Category">
+    <input type="text" name="name" placeholder="Name">
+    <input type="text" name="consumption_week" placeholder="Consumption (week)">
+    <button type="submit">Add row</button>
+  </form>
+  

@@ -6,7 +6,7 @@ from json import JSONEncoder
 class Product:
     category: str
     name: str
-    consumption_month: str
+    consumption_week: str
     suppliers: list[str]
 
 @dataclass
