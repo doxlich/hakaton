@@ -46,20 +46,28 @@
 			<tr>
 				<th>Продукт</th>
 				<th>Количество</th>
-				<th></th>
+				<th>Поставщик</th>
 			</tr>
 		</thead>
 		<tbody id="product-list">
+			{% for row in data %}
 			<tr>
-				<td>Product A</td>
-				<td>10</td>
-				<td></td>
+				<td>{{ row['name'] }}</td>
+				<td><input type="number" name="order_count" value="{{ row.order_count }}" min="0"></td>
+				<td><select name="supplier">
+					{% for supplier in suppliers %}
+					<option value="{{ supplier }}">{{ supplier }}</option>
+					{% endfor %}
+					</select>
+				</td>
 			</tr>
+			{% endfor %}
 		</tbody>
 	</table>
 	<div class="add-row">
 		<input type="text" name="product_name" placeholder="Product Name">
-		<input type="number" name="product_count" placeholder="Count">
+		<input type="number" name="product_count" placeholder="Count" min="0">
+		<input type="supplier" name="supplier" placeholder="Доставщик" >
 		<button id="add_row">+</button>
 	</div>
     <script>
@@ -76,11 +84,13 @@
           const newCells = [
             document.createElement('td'),
             document.createElement('td'),
-            document.createElement('td')
+            document.createElement('td'),
+            document.createElement('td'),
           ];
           
           newCells[0].textContent = productName;
           newCells[1].textContent = productCount;
+          newCells[1].textContent = "ДЯдя Ваня";
           newCells[2].innerHTML = '<button>-</button>';
           
           newCells[2].querySelector('button').addEventListener('click', function() {
