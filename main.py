@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 import csv
 from dataclasses import dataclass
 from enum import Enum
 
 app = Flask(__name__)
+app.secret_key = "big_balls"
 
 @dataclass
 class Product:
@@ -33,10 +34,6 @@ suppliers: list[Suppplier] = []
 registered_users: list[User] = []
 
 def init():
-    #wb = openpyxl.load_workbook('data\\Model_zakupa_dlya_khakatona.xlsx', read_only=True)
-    #products_sheet = wb["список товаров"]
-    #suppliers_sheet = wb["Наименования поставщика"]
-    #ws = wb['Область работы']
     global products
     with open('data\\products.csv', mode='r', encoding="utf8") as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=';')
@@ -64,7 +61,7 @@ def init():
         for row in csv_reader:
             registered_users.append(User(row[0], row[2]))
 
-#default login/reister page
+#default login/register page
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -82,6 +79,7 @@ def register():
         global registered_users
         username = request.form["username"]
         password = request.form["password"]
+        user_role = request.form["user-role"]
 
         for user in registered_users:
             if user.name == username:
@@ -89,6 +87,20 @@ def register():
 
         registered_users.append(User(username, UserRole.SUPPLIER))
         return redirect("/")
+    
+@app.route('/login', methods=['POST'])
+def login():
+    if request.method == "POST":
+        global registered_users
+        name = request.form["name"]
+        password = request.form["password"]
+
+        for user in registered_users:
+            if user.name == name:
+                session["name"] = user.name
+                session["logged"] = True
+                return redirect("/")
+        return "Wrong username or password"
 
 @app.route('/product')
 def product():
