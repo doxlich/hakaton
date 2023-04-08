@@ -1,0 +1,1 @@
+flask run -c main.py
