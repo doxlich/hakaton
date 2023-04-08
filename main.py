@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import csv
 from dataclasses import dataclass
+from enum import Enum
 
 app = Flask(__name__)
 
@@ -17,8 +18,19 @@ class Suppplier:
     nomenclature: str
     supplier: str
 
+class UserRole(Enum):
+    SUPPLIER = 0  #Поставщик
+    MANAGER = 1  #Менеджер
+    DIRECTOR = 2  #Управляющий
+
+@dataclass
+class User:
+    name: str
+    role: UserRole
+
 products: list[Product] = []
 suppliers: list[Suppplier] = []
+registered_users: list[User] = []
 
 def init():
     #wb = openpyxl.load_workbook('data\\Model_zakupa_dlya_khakatona.xlsx', read_only=True)
@@ -45,6 +57,13 @@ def init():
             if product.name == supplier.product:
                 product.suppliers.append(supplier.supplier)
 
+    global registered_users
+    with open('data\\users.csv', mode='r', encoding="utf8") as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=';')
+        next(csv_reader)  # Skip header row
+        for row in csv_reader:
+            registered_users.append(User(row[0], row[2]))
+
 #default login/reister page
 @app.route('/')
 def index():
@@ -57,9 +76,19 @@ def add():
     elif request.method == 'GET':
         return render_template('add.html')
 
-@app.route('/aa')
-def aa():
-    return render_template('aaadd.html')
+@app.route('/register', methods=['POST'])
+def register():
+    if request.method == "POST":
+        global registered_users
+        username = request.form["username"]
+        password = request.form["password"]
+
+        for user in registered_users:
+            if user.name == username:
+                return "Username already exists"
+
+        registered_users.append(User(username, UserRole.SUPPLIER))
+        return redirect("/")
 
 @app.route('/product')
 def product():
