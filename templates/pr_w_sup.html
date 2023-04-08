@@ -1,24 +1,21 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Product List</title>
-  </head>
-  <body>
-    <table>
-      <thead>
-        <tr>
-          <th>Продукт</th>
-          <th>Доставщики</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for product_name, suppliers in products.items() %}
-          <tr>
-            <td>{{ product_name }}</td>
-            <td>{{ ', '.join(suppliers) }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </body>
-</html>
+<table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Name</th>
+        <th>Consumption Month</th>
+        <th>Suppliers</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in products %}
+      <tr>
+        <td>{{ product.category }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.consumption_month }}</td>
+        <td>{{ product.suppliers }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
