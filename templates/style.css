@@ -60,6 +60,9 @@ h1{
 h2{
     font-size: 20px;
 }
+a{
+    color:#ffffff
+}
 .icon{
     display: block;
     width: 50px;
@@ -105,6 +108,14 @@ h2{
     width:60%;
     z-index: 1;
 }
+.storage{
+    display: flex;
+}
+.profile-data{
+    display: block;
+    margin-top: 20px;
+    width: 50%;
+}
 .head_block{
     margin-bottom: 10px;
 }
@@ -126,6 +137,12 @@ h2{
 	cursor: pointer;
 	transition: background-color 0.3s ease-in-out;
     padding: 10px 20px;
+}
+.edit{
+    display: flex;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 #enter{
     font-size: 25px;
