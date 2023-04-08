@@ -2,8 +2,10 @@
     margin: 0;
     box-sizing: border-box;
 }
+html,
 body{
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    height: 100%;
 }
 button{
     border: 0px;
@@ -18,6 +20,8 @@ header{
     background-color: rgb(170,170,170);
     display: flex;
     justify-content: space-between;
+    position:sticky;
+    top:0;
 }
 .icon{
     display: block;
@@ -34,13 +38,25 @@ header{
     
 }
 .content{
-    background-;
+    background: 
+		linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9)), 
+		url("background.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-attachment:fixed;
+	background-position: top;
     width: 100%;
+    height: 100%;
     padding: 0 10% 0 10% ;
+    padding-top: 150px ;
     min-width: 780px;
+}
+.content-in{
+    height: 400px;
     display:flex;
     align-items: center;
     justify-content: space-between;
+    color:aliceblue;
 }
 .start{
     display:block;
