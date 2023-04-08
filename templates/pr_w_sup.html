@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Product List</title>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>Продукт</th>
+          <th>Доставщики</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product_name, suppliers in products.items() %}
+          <tr>
+            <td>{{ product_name }}</td>
+            <td>{{ ', '.join(suppliers) }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

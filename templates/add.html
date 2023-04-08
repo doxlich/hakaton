@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Product List</title>
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+		
+		th, td {
+			text-align: left;
+			padding: 8px;
+			border-bottom: 1px solid #ddd;
+		}
+		
+		tr:hover {
+			background-color: #f5f5f5;
+		}
+		
+		.add-row {
+			display: flex;
+			align-items: center;
+		}
+		
+		.add-row input[type="text"], .add-row input[type="number"] {
+			padding: 8px;
+			margin-right: 8px;
+			border: none;
+			border-bottom: 1px solid #ddd;
+			width: 50%;
+		}
+		
+		.add-row button {
+			padding: 8px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<table>
+		<thead>
+			<tr>
+				<th>Продукт</th>
+				<th>Количество</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody id="product-list">
+			<tr>
+				<td>Product A</td>
+				<td>10</td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="add-row">
+		<input type="text" name="product_name" placeholder="Product Name">
+		<input type="number" name="product_count" placeholder="Count">
+		<button id="add_row">+</button>
+	</div>
+    <script>
+        const addRowButton = document.getElementById('add_row');
+        const table = document.querySelector('table tbody');
+        
+        addRowButton.addEventListener('click', function() {
+          const newRow = document.createElement('tr');
+          const productName = document.querySelector('input[name="product_name"]').value;
+          const productCount = document.querySelector('input[name="product_count"]').value;
+          const newCells = [
+            document.createElement('td'),
+            document.createElement('td'),
+            document.createElement('td')
+          ];
+          
+          newCells[0].textContent = productName;
+          newCells[1].textContent = productCount;
+          newCells[2].innerHTML = '<button>-</button>';
+          
+          newCells[2].querySelector('button').addEventListener('click', function() {
+            newRow.remove();
+          });
+          
+          newRow.append(...newCells);
+          table.append(newRow);
+          
+          document.querySelector('input[name="product_name"]').value = '';
+          document.querySelector('input[name="product_count"]').value = '';
+        });
+      </script>
+</body>
+</html>
