@@ -69,7 +69,10 @@
         addRowButton.addEventListener('click', function() {
           const newRow = document.createElement('tr');
           const productName = document.querySelector('input[name="product_name"]').value;
-          const productCount = document.querySelector('input[name="product_count"]').value;
+          const productCount = parseInt(document.querySelector('input[name="product_count"]').value);
+          if (!productName || productCount < 0) {
+            return;
+          }
           const newCells = [
             document.createElement('td'),
             document.createElement('td'),

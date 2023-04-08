@@ -19,8 +19,12 @@
             hello is syte for automisation your coffe shop
             </p>
         </div>
-            <img src="cofe.jpg" class="img">
+            <img src="static/cofe.jpg" class="img">
         </div>
+        {% if logged %}
+            <h2>LOGGED ahiha</h2>
+            <h2>NAME: {{ user.name }}</h2>
+        {% endif %}
 </div>
 <footer>
 

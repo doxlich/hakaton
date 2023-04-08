@@ -1,33 +1,10 @@
 from flask import Flask, render_template, request, redirect, session
 import csv
-from dataclasses import dataclass
-from enum import Enum
+from data_classes import Product, Suppplier, User, UserRole
 
 app = Flask(__name__)
-app.secret_key = "big_balls"
+app.secret_key = "big_nuts"
 
-@dataclass
-class Product:
-    category: str
-    name: str
-    consumption_month: str
-    suppliers: list[str]
-
-@dataclass
-class Suppplier:
-    product: str
-    nomenclature: str
-    supplier: str
-
-class UserRole(Enum):
-    SUPPLIER = 0  #Поставщик
-    MANAGER = 1  #Менеджер
-    DIRECTOR = 2  #Управляющий
-
-@dataclass
-class User:
-    name: str
-    role: UserRole
 
 products: list[Product] = []
 suppliers: list[Suppplier] = []
@@ -39,7 +16,6 @@ def init():
         csv_reader = csv.reader(csv_file, delimiter=';')
         next(csv_reader)  # Skip header row
         for row in csv_reader:
-            print(row)
             products.append(Product(row[0], row[1], row[2], []))
 
     global suppliers
@@ -59,12 +35,12 @@ def init():
         csv_reader = csv.reader(csv_file, delimiter=';')
         next(csv_reader)  # Skip header row
         for row in csv_reader:
-            registered_users.append(User(row[0], row[2]))
+            registered_users.append(User(row[0], row[1], row[3]))
 
 #default login/register page
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', logged = session.get("logged"), user = session.get("user"))
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
@@ -78,6 +54,7 @@ def register():
     if request.method == "POST":
         global registered_users
         username = request.form["username"]
+        email = request.form["email"]
         password = request.form["password"]
         user_role = request.form["user-role"]
 
@@ -85,7 +62,7 @@ def register():
             if user.name == username:
                 return "Username already exists"
 
-        registered_users.append(User(username, UserRole.SUPPLIER))
+        registered_users.append(User(username, email, UserRole.SUPPLIER.value))
         return redirect("/")
     
 @app.route('/login', methods=['POST'])
@@ -96,8 +73,9 @@ def login():
         password = request.form["password"]
 
         for user in registered_users:
-            if user.name == name:
-                session["name"] = user.name
+            if user.name == name or \
+                user.email == name:
+                session["user"] = user
                 session["logged"] = True
                 return redirect("/")
         return "Wrong username or password"
