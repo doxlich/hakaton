@@ -47,7 +47,15 @@ def add():
     if request.method == 'POST':
         pass
     elif request.method == 'GET':
-        return render_template('add.html')
+        data = []
+        with open('data/ordered.csv', mode='r', encoding="utf8") as f:
+            reader = csv.DictReader(f, delimiter=';')
+            for row in reader:
+                data.append(row)
+            suppliers_names = set()
+            for supplier in suppliers:
+                suppliers_names.add(supplier.supplier)
+        return render_template('add.html', data=data, suppliers=suppliers_names)
 
 @app.route('/register', methods=['POST'])
 def register():
