@@ -88,12 +88,12 @@ def login():
                 return redirect("/")
         return "Wrong username or password"
 
-@app.route('/product')
+@app.route('/products_edit')
 def product():
     global products
-    return render_template('xslx_test.html', data=products)
+    return render_template('products_edit.html', data=products)
 
-@app.route('/prod_sup')
+@app.route('/suppliers_edit')
 def parsed():
     global products
     return render_template('pr_w_sup.html', products=products)
