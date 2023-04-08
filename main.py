@@ -41,7 +41,7 @@ def index():
 
 @app.route('/add')
 def add():
-    return render_template('2.html')
+    return render_template('add.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
