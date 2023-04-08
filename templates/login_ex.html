@@ -60,12 +60,11 @@
 		<a class="nav-button">
 			вход/регистрация
 		</a>
-	
 	</header>
 	<form id="login-form" method="POST" action="/login">
 		<h1 id="enter">Вход/Регистрация</h1>
-        <input type="text" name="name" placeholder="Имя пользователя" required>
-        <input type="password" name="password" placeholder="Пароль" required>
+        <input type="text" class="margin-1" name="name" placeholder="Имя пользователя" required>
+        <input type="password" class="margin-1" name="password" placeholder="Пароль" required>
         <div class="form-footer">
 			<div class="form-footer-50">
 				<a href="#" class="password-refresh">забыли пароль?</a>
@@ -78,15 +77,15 @@
     </form>
     
     <form id="register-form" method="POST" action="/register" style="display: none;">
-        <input type="text" name="username" placeholder="Имя" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <select name="user-role">
+        <input type="text" class="margin-1" name="username" placeholder="Имя" required>
+        <input type="email" class="margin-1" name="email" placeholder="Email" required>
+        <select class="margin-1" name="user-role">
             <option value="0">Поставщик</option>
             <option value="1">Менеджер</option>
             <option value="2">Управляющий</option>
         </select>
-        <input type="password" name="password" placeholder="Пароль" required>
-        <input type="password" name="confirm-password" placeholder="Подтвердите пароль" required>
+        <input type="password" class="margin-1" name="password" placeholder="Пароль" required>
+        <input type="password" class="margin-1" name="confirm-password" placeholder="Подтвердите пароль" required>
         <div class="form-footer">
             <button type="button" class="login-button" id="login-switch">войти</button>
 			<input type="submit" value="зарегестрироваться">
@@ -106,6 +105,7 @@
                 $('#login-form').show();
             });
         });
+		
     </script>
 </body>
 </html>

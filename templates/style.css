@@ -43,11 +43,10 @@ form {
     align-items: center;
 
 }
-input[type="text"], select, input[type="email"], input[type="password"], input::placeholder {
+input[type="text"], select, input[type="email"], input[type="password"],input[type="number"],  input::placeholder {
     padding: 10px;
     border-radius: 5px;
     border: none;
-    margin-bottom: 20px;
     width: 100%;
     box-sizing: border-box;
     background-color: #8a5c44;
@@ -61,6 +60,9 @@ h1{
 h2{
     font-size: 20px;
 }
+a{
+    color:#ffffff
+}
 .icon{
     display: block;
     width: 50px;
@@ -70,7 +72,6 @@ h2{
 }
 .nav-button{
     display: block;
-    width: 25%;
     font-size: 15px;
     text-align: center;
     margin-top: auto;
@@ -82,7 +83,6 @@ h2{
     width: 100%;
     height: 100%;
     padding: 0 5% 0 5% ;
-    padding-top: 150px ;
     min-width: 780px;
     z-index: 1;
 }
@@ -103,10 +103,18 @@ h2{
     width:40%;
 }
 .img{
-    min-width: 855px;
-    min-height: 800px;
+    min-width: 570px;
+    min-height: 533px;
     width:60%;
     z-index: 1;
+}
+.storage{
+    display: flex;
+}
+.profile-data{
+    display: block;
+    margin-top: 20px;
+    width: 50%;
 }
 .head_block{
     margin-bottom: 10px;
@@ -118,6 +126,9 @@ h2{
 .form-footer-50{
     width: 25%;
 }
+.margin-1{
+    margin-bottom: 20px;
+}
 .login-button{
     margin-top: 15px;
     background-color: #8a5c44;
@@ -126,6 +137,12 @@ h2{
 	cursor: pointer;
 	transition: background-color 0.3s ease-in-out;
     padding: 10px 20px;
+}
+.edit{
+    display: flex;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 #enter{
     font-size: 25px;
