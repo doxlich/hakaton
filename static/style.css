@@ -93,6 +93,12 @@ a{
     justify-content: space-between;
     color:aliceblue;
 }
+.flex_tf{
+    display: block;
+    width: 25%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
 .block{
     display:block;
     min-width: 296px;
