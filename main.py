@@ -220,6 +220,20 @@ def save_table():
             writer.writerow(row)
     return "OK"
 
+@app.route('/save-edited-table', methods=['POST'])
+def save_edited_table():
+    if not request.method == 'POST':
+        return "GET isn't allowed"
+    if not session["logged"]:
+        return "Log in!!!"
+    path, data = request.get_data().decode("utf8").split("+")
+    with open(f"data/purchaser_lists/{path}-edited", "w", newline="") as f:
+        writer = csv.writer(f)
+        reader = csv.reader(data.splitlines())
+        for row in reader:
+            writer.writerow(row)
+    return "OK"
+
 @app.route('/buyer_edit')
 def buyer_edit():
     file_path = request.args.get('file')
@@ -236,10 +250,9 @@ def buyer_edit():
     data = []
     with open(f"data/purchaser_lists/{file_path}", "r", newline="") as f:
         csv_reader = csv.reader(f, delimiter=';')
-        next(csv_reader)  # Skip header row
         for row in csv_reader:
             data.append((row[0], row[1], row[2], row[3]))
-    return render_template('buyer_edit.html', user = session.get("user"), products_dict = products_dict, suppliers_names = suppliers_names, data = data, logged = session.get("logged"))
+    return render_template('buyer_edit.html', user = session.get("user"), products_dict = products_dict, suppliers = suppliers_names, data = data, logged = session.get("logged"))
 
 init()
 if __name__ == '__main__':

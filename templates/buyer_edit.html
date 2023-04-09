@@ -89,20 +89,16 @@
 		</thead>
 		<tbody id="product-list">
 			{% for row in data %}
-			<tr data-row="{{ loop.index0 }}">
+			<tr">
 				<td>
-					<input list="products-list" id="product" name="product" value="{{ row['name'] }}">
+					<input list="products-list" id="product" name="product" value="{{ row[0] }}">
 				</td>
-				<td> {{ row["consumption_week"] }} </td>
-				{% if row["name"] in products %}
-					<td><input type="number" name="order_count" value="{{ row.order_count }}" min="0"></td>
-				{% else %}
-					<td><input type="number" name="order_count" value="{{ row.order_count }}" min="0"></td>
-				{% endif %}
+				<td> {{ row[1] }} </td>
+				<td><input type="number" name="order_count" value="{{ row[2] }}" min="0"></td>
 				<td><select name="supplier">
 						{% for supplier in suppliers %}
 							{% if supplier == row.supplier %}
-								<option value="{{ row.supplier }}" selected>{{ row.supplier }}</option>
+								<option value="{{ row.supplier }}" selected>{{ row[3] }}</option>
 							{% else %}
 								<option value="{{ supplier }}">{{ supplier }}</option>
 							{% endif %}
@@ -117,58 +113,9 @@
 
 	<div class="edit">
         <input class="login-button" type="button" value="вернуться">
-        <input class="login-button" type="button" onclick="saveTableToCsv()" value="отправить поставщикам">
+        <input class="login-button" type="button" onclick="saveTableToCsv()" value="Сохранить изменения">
     </div>
 	</div>
-    <script>
-		delete_btn = document.querySelectorAll('#delete-row-btn');
-		delete_btn.forEach(btn => {
-				btn.addEventListener('click', function() {
-				const row = this.closest('tr');
-				row.remove();
-			});
-		});
-		
-        const addRowButton = document.getElementById('add_row');
-        const table = document.querySelector('table tbody');
-        
-        addRowButton.addEventListener('click', function() {
-          const newRow = document.createElement('tr');
-          const productName = document.querySelector('input[name="product_name"]').value;
-          const productNameForTable = '<input list="products-list" id="product" name="product" value="' + productName + '">';
-          const productCount = parseInt(document.querySelector('input[name="product_count"]').value);
-          const supplier = document.querySelector('select[name="supplier"]').innerHTML;
-		  if (isNaN(productCount)) {
-			return;
-		  }
-          if (!productName || productCount < 0) {
-            return;
-          }
-          const newCells = [
-            document.createElement('td'),
-            document.createElement('td'),
-            document.createElement('td'),
-            document.createElement('td'),
-            document.createElement('td'),
-          ];
-          
-          newCells[0].innerHTML = productNameForTable;
-          newCells[1].textContent = 0;
-          newCells[2].innerHTML = '<input type="number" name="order_count" value="' + productCount + '" min="0">';
-          newCells[3].innerHTML = '<select name="supplier">' + supplier + '</select>';
-          newCells[4].innerHTML = '<button>-</button>';
-          
-          newCells[4].querySelector('button').addEventListener('click', function() {
-            newRow.remove();
-          });
-          
-          newRow.append(...newCells);
-          table.append(newRow);
-          
-          document.querySelector('input[name="product_name"]').value = '';
-          document.querySelector('input[name="product_count"]').value = '';
-        });
-      </script>
 
 	  <script>
 		function saveTableToCsv() {
@@ -187,14 +134,15 @@
 			}
 
 			// Convert the data to CSV format.
-			var csvData = "";
+			save_path = window.location.search.substr(6)
+			var csvData = save_path + "+";
 			tableData.forEach(function(row) {
 				csvData += row.join(";") + "\n";
 			});
 
 			// Use an XHR request to send the CSV data to your Flask server.
 			var xhr = new XMLHttpRequest();
-			xhr.open("POST", "/save-table-to-csv");
+			xhr.open("POST", "/save-edited-table");
 			xhr.setRequestHeader("Content-Type", "text/csv");
 			xhr.onreadystatechange = function() {
 				if (xhr.readyState === 4 && xhr.status === 200) {
