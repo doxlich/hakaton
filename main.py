@@ -10,6 +10,21 @@ products: list[Product] = []
 suppliers: list[Suppplier] = []
 registered_users: list[User] = []
 
+def get_users():
+    global registered_users
+    registered_users = []
+    with open('data\\users.csv', mode='r', encoding="utf8") as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=';')
+        next(csv_reader)  # Skip header row
+        for row in csv_reader:
+            registered_users.append(User(row[0], row[1], row[3]))
+
+def save_user(name: str, email: str, password: str, role: UserRole):
+    data_to_save = [name, email, password, role]
+    with open('data\\users.csv', mode='a', encoding="utf8") as csv_file:
+        csv_writer = csv.writer(csv_file, delimiter=';')
+        csv_writer.writerow(data_to_save)
+
 def init():
     global products
     with open('data\\products.csv', mode='r', encoding="utf8") as csv_file:
@@ -30,12 +45,7 @@ def init():
             if product.name == supplier.product:
                 product.suppliers.append(supplier.supplier)
 
-    global registered_users
-    with open('data\\users.csv', mode='r', encoding="utf8") as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=';')
-        next(csv_reader)  # Skip header row
-        for row in csv_reader:
-            registered_users.append(User(row[0], row[1], row[3]))
+    get_users()
 
 #default login/register page
 @app.route('/')
@@ -80,6 +90,8 @@ def register():
                 return "Username already exists"
             if user.email == email:
                 return "Email already exists"
+
+        //Save user to csv file
 
         user = User(username, email, int(user_role))
         registered_users.append(user)
