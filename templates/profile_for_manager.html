@@ -40,7 +40,7 @@
             имя:
         </h2>
         <h2 class="profile-data">
-            usname
+            {{user.name}}
         </h2>
     </div>
     <div class="storage">
@@ -51,10 +51,42 @@
             управляющий
         </h2>
     </div>
+    <div class="storage">
+        <h2 class="profile-data">
+            Кофейня:
+        </h2>
+        <h2 class="profile-data">
+            <input type="text" id="cofee-shop-input" value=" {{ user.cofee_shop }}">
+        </h2>
+    </div>
     <div class="edit">
         <input class="login-button" type="button" value="создать накладную">
         <input class="login-button" type="button" value="редактировать черновик">
+        <input class="login-button" id="save-btn" type="button" value="Сохранить настройки">
     </div>
 </div>
+
+<script>
+    const saveBtn = document.getElementById('save-btn');
+    saveBtn.addEventListener('click', function() {
+      const xhr = new XMLHttpRequest();
+      const url = '/update_user_data';
+      const data = JSON.stringify({'cofee-shop': document.getElementById('cofee-shop-input').value});
+  
+      xhr.open('POST', url);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+  
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          alert('Данные обновлены');
+        } else {
+          alert('Произошла ошибка.');
+        }
+      };
+  
+      xhr.send(data);
+    });
+  </script>
+
 </body>
 </html>

@@ -25,4 +25,4 @@ class User:
     name: str
     email: str
     role: UserRole
-    additional_data: dict[str, str]
+    cofee_shop: str

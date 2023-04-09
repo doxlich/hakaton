@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, jsonify, make_response
 import csv
 from data_classes import Product, Suppplier, User, UserRole
+import pandas as pd
+import ast
 
 app = Flask(__name__)
 app.secret_key = "big_nuts"
@@ -19,10 +21,19 @@ def get_users():
         for row in csv_reader:
             if row == []:
                 continue
-            if len(row) < 4:
-                registered_users.append(User(row[0], row[1], row[3], {}))
-            else:
-                registered_users.append(User(row[0], row[1], row[3], row[4]))
+            registered_users.append(User(row[0], row[1], row[3], row[4]))
+
+def add_data_to_user(key: str, value: str):
+    df = pd.read_csv('data\\users.csv', delimiter=';')
+
+    user = session.get("user")
+    row_index = df.index[df['name'] == user["name"]].tolist()[0]
+    if type(df.at[row_index, "add_data"]) == type(dict):
+        df.at[row_index, "add_data"][key] = value
+    else:
+        df.at[row_index, "add_data"] = {key: value}
+
+    df.to_csv('data\\users.csv', sep=';', index=False)
 
 
 def save_user(name: str, email: str, password: str, role: int):
@@ -99,6 +110,7 @@ def register():
         email = request.form["email"]
         password = request.form["password"]
         user_role = request.form["user-role"]
+        coffe_shop_name = request.form["coffe_shop_name"]
 
         for user in registered_users:
             if user.name == username:
@@ -107,7 +119,7 @@ def register():
                 return "Email already exists"
 
         save_user(username, email, password, int(user_role))
-        user = User(username, email, int(user_role))
+        user = User(username, email, int(user_role), coffe_shop_name)
         registered_users.append(user)
         set_logged(user)
         return redirect("/")
@@ -161,6 +173,18 @@ def profile_for_buyer():
     if not session["logged"]:
         return "Log in!!!"
     return render_template('profile_for_buyer.html', user = session.get("user"))
+
+@app.route('/update_user_data', methods=['POST'])
+def update_user_data():
+    if not request.method == 'POST':
+        return "GET isn't allowed"
+    if not session["logged"]:
+        return "Log in!!!"
+    data = request.json # get the JSON data sent in the request
+    cofee_shop = data['cofee-shop'] # get the value of the 'cofee_shop' field
+    add_data_to_user("cofee_shop", cofee_shop)
+    response = jsonify({'success': True}) # create a JSON response
+    return make_response(response, 200) # return the response with a 200 status code
 
 init()
 if __name__ == '__main__':
