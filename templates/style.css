@@ -129,7 +129,7 @@ a{
 .margin-1{
     margin-bottom: 20px;
 }
-.flex-25{
+.flex_tf{
     display: block;
     width: 25%;
 }
