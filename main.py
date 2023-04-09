@@ -23,7 +23,7 @@ def get_users():
 
 def save_user(name: str, email: str, password: str, role: int):
     data_to_save = [name, email, password, role]
-    with open('data\\users.csv', mode='a', encoding="utf8") as csv_file:
+    with open('data\\users.csv', mode='a', encoding="utf8", newline="") as csv_file:
         csv_writer = csv.writer(csv_file, delimiter=';')
         csv_writer.writerow(data_to_save)
 
