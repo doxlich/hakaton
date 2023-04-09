@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<head>
+    <title>сайтюка</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <a href="http://127.0.0.1:5000" class="icon"><img src="icon.png" class="icon" alt=" "></a>
+        <a class="nav-button">
+            для новых пользователей
+        </a>
+        <a class="nav-button">
+            о том как начать с нами работать
+        </a>
+        
+        <div class="nav-button">
+            <a class="profile_name" href={{account_link}}>
+                <img src="profile.png" class="icon">
+                <p class="profile_name">
+                    {{user.name}}
+                </p>
+            </a>
+
+        </div>
+       
+        <a href="login_ex" class="nav-button">
+            вход/регистрация
+        </a>
+       
+
+    </header>
+
+
+    <div class="content">
+        <div class="content-in">
+            <div class="cont_l">
+                <div class="block">
+                    <div class="head_block">
+                        <h1>
+                            Контакты
+                        </h1>
+                    </div>
+                    <div class="after-1">
+                        <h2>
+                            Телефон: +7 (963) 061-02-78 <br>
+                            Instagram: @parusacoffee <br>
+                             <br>
+                        </h2> 
+                        
+                    </div>
+
+                </div>
+            </div>
+            <img src="cofe.png" class="img">
+        </div>
+    </div>
+
+
+    <footer>
+    </footer>
+
+</body>
+
+</html>

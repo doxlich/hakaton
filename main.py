@@ -171,6 +171,14 @@ def profile_for_buyer():
         return "Log in!!!"
     return render_template('profile_for_buyer.html', user = session.get("user"), logged = session.get("logged"))
 
+@app.route('/new_person')
+def profile_for_buyer():
+    return render_template('new_person.html', user = session.get("user"))
+
+@app.route('/start')
+def profile_for_buyer():
+    return render_template('start.html', user = session.get("user"))
+
 @app.route('/update_user_data', methods=['POST'])
 def update_user_data():
     if not request.method == 'POST':
