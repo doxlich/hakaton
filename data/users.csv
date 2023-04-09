@@ -1,5 +1,14 @@
+<<<<<<< HEAD
 dsas@;222@mail.ru;321;0
 sda@n;adas2@mail.ru;asd;0
 admin0;admin0@mail.ru;admin0;0
 admin1;admin1@mail.ru;admin1;1
 admin2;admin2@mail.ru;admin2;2
+=======
+name;email;pass;role;cofee_shop
+dsas@;222@mail.ru;321;0;cofee_shop
+sda@n;adas2@mail.ru;asd;0;cofee_shop
+admin0;admin0@mail.ru;admin0;0;cofee_shop
+admin1;admin1@mail.ru;admin1;1;cofee_shop
+admin2;admin2@mail.ru;admin2;2;cofee_shop
+>>>>>>> 80eeca5e4e0262343809fca6d9a928fc79ce826e
