@@ -5,8 +5,6 @@
 	<link rel="stylesheet" href="static/style.css">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 	<style>
 		table {
@@ -58,6 +56,12 @@
 		<a class="nav-button">
 			вход/регистрация
 		</a>
+
+		<datalist id="products-list">
+			{% for el in products %}
+				<option value="{{ el }}">
+			{% endfor %}
+		</datalist>
 	</header>
 	<div class="table-redactor">
 	<table>
@@ -73,13 +77,7 @@
 			{% for row in data %}
 			<tr>
 				<td>
-					<input list="ice-cream-flavors" id="ice-cream-choice" name="ice-cream-choice" value="{{ row['name'] }}">
-					<datalist id="ice-cream-flavors">
-						<option value="Chocolate">
-						{% for el in products %}
-							<option value="{{ 1 }}">
-						{% endfor %}
-					</datalist>
+					<input list="products-list" id="product" name="product" value="{{ row['name'] }}">
 				</td>
 				<td> {{ row["consumption_week"] }} </td>
 				{% if row["name"] in products %}
@@ -90,7 +88,7 @@
 				<td><select name="supplier">
 						{% for supplier in suppliers %}
 							{% if supplier == row.supplier %}
-								<option value="{{ supplier }}" selected>{{ supplier }}</option>
+								<option value="{{ row.supplier }}" selected>{{ row.supplier }}</option>
 							{% else %}
 								<option value="{{ supplier }}">{{ supplier }}</option>
 							{% endif %}
@@ -103,7 +101,7 @@
 	</table>
 
 	<div class="add-row">
-		<input type="text" name="product_name" placeholder="Продукт">
+		<input list="products-list" id="product_name" name="product_name" value="">
 		<!-- <input type="number" name="consumption_week" placeholder="0" value="0"> -->
 		<input type="number" name="product_count" placeholder="Количество" min="0">
 		<select name="supplier">
@@ -120,8 +118,10 @@
         
         addRowButton.addEventListener('click', function() {
           const newRow = document.createElement('tr');
-          const productName = document.querySelector('input[name="product_name"]').value;
+          const productName = document.querySelector('input[name="product_name"]').innerHTML;
+          //const productNameForTable = '<input list="products-list" id="ice-cream-choice" name="ice-cream-choice" value="' + productName + '">';
           const productCount = parseInt(document.querySelector('input[name="product_count"]').value);
+          const supplier = document.querySelector('select[name="supplier"]').innerHTML;
           if (!productName || productCount < 0) {
             return;
           }
@@ -130,14 +130,16 @@
             document.createElement('td'),
             document.createElement('td'),
             document.createElement('td'),
+            document.createElement('td'),
           ];
           
-          newCells[0].textContent = productName;
-          newCells[1].textContent = productCount;
-          newCells[1].textContent = "ДЯдя Ваня";
-          newCells[2].innerHTML = '<button>-</button>';
+          newCells[0].innerHTML = productName;
+          newCells[1].textContent = 0;
+          newCells[2].innerHTML = '<input type="number" name="order_count" value="' + productCount + '" min="0">';
+          newCells[3].innerHTML = '<select name="supplier">' + supplier + '</select>';
+          newCells[4].innerHTML = '<button>-</button>';
           
-          newCells[2].querySelector('button').addEventListener('click', function() {
+          newCells[4].querySelector('button').addEventListener('click', function() {
             newRow.remove();
           });
           
