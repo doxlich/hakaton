@@ -52,7 +52,16 @@ def init():
 #default login/register page
 @app.route('/')
 def index():
-    return render_template('index.html', logged = session.get("logged"), user = session.get("user"))
+    account_link = "/"
+    if session.get("logged"):
+        role = session.get("user")["role"]
+        if role == UserRole.SUPPLIER.value:
+            account_link = "profile_for_supplier"
+        elif role == UserRole.MANAGER.value:
+            account_link = "profile_for_manager"
+        elif role == UserRole.DIRECTOR.value:
+            account_link = "profile_for_buyer"
+    return render_template('index.html', logged = session.get("logged"), user = session.get("user"), account_link = account_link)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
@@ -130,6 +139,18 @@ def parsed():
 @app.route('/login_ex')
 def login_ex():
     return render_template('login_ex.html')
+
+@app.route('/profile_for_supplier')
+def profile_for_supplier():
+    return render_template('profile_for_supplier.html')
+
+@app.route('/profile_for_manager')
+def profile_for_manager():
+    return render_template('profile_for_manager.html')
+
+@app.route('/profile_for_buyer')
+def profile_for_buyer():
+    return render_template('profile_for_buyer.html')
 
 init()
 if __name__ == '__main__':
