@@ -174,7 +174,13 @@ def profile_for_buyer():
     files_csv = [file for file in files if file.endswith('.csv')]
     files_data = []
     for file in files_csv:
-        shop_name, date_str, *_ = file.split('-')[1:]
+        parts = file.split('-')[1:]
+        shop_name = parts[0]
+        date_str = ""
+        for x in range(1, len(parts)):
+            date_str = date_str + "-" + parts[x]
+        date_str = date_str[1:]
+        date_str = date_str[:-4]
         date = datetime.strptime(date_str, '%Y-%m-%d_%H-%M-%S').date()
         files_data.append((shop_name, date))
     return render_template('profile_for_buyer.html', user = session.get("user"), logged = session.get("logged"), files_data = files_data)
@@ -184,7 +190,7 @@ def new_person():
     return render_template('new_person.html', user = session.get("user"))
 
 @app.route('/start')
-def profile_for_buyer():
+def start():
     return render_template('start.html', user = session.get("user"))
 
 @app.route('/update_user_data', methods=['POST'])
