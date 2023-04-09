@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Product List</title>
+	<link rel="stylesheet" href="static/style.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+		
+		th, td {
+			text-align: left;
+			padding: 8px;
+			border-bottom: 1px solid #ddd;
+		}
+		
+		tr:hover {
+			background-color: #f5f5f5;
+		}
+		
+		.add-row {
+			display: flex;
+			align-items: center;
+			margin-top: 20px;
+		}
+		
+		.add-row input[type="text"], .add-row input[type="number"] {
+			padding: 8px;
+			margin-right: 8px;
+			border: none;
+			border-bottom: 1px solid #ddd;
+			width: 50%;
+		}
+		
+		.add-row button {
+			padding: 8px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<img src="static/icon.png" href="index" class="icon" alt=" ">
+		<a class="nav-button">
+			для новых пользователей
+		</a>
+		<a class="nav-button">
+			о том как начать с нами работать
+		</a>
+		{% if logged %}
+			<div class="nav-button">
+			<a class="profile_name" href= {{account_link}}>
+			<img src="static/profile.png" class="icon">
+			<p class="profile_name">
+			{{user.name}}
+			</p>
+			</a>
+			
+			</div>
+		{% else %}
+			<a href="login_ex" class="nav-button">
+				вход/регистрация
+			</a>
+		{% endif %}
+
+		<datalist id="products-list">
+			{% for el in products %}
+				<option value="{{ el }}">
+			{% endfor %}
+		</datalist>
+	</header>
+	<div class="content">
+	<div class="table-redactor">
+	<table>
+		<thead>
+			<tr>
+				<th>Продукт</th>
+				<th>Потрачено</th>
+				<th>Количество</th>
+				<th>Поставщик</th>
+			</tr>
+		</thead>
+		<tbody id="product-list">
+			{% for row in data %}
+			<tr data-row="{{ loop.index0 }}">
+				<td>
+					<input list="products-list" id="product" name="product" value="{{ row['name'] }}">
+				</td>
+				<td> {{ row["consumption_week"] }} </td>
+				{% if row["name"] in products %}
+					<td><input type="number" name="order_count" value="{{ row.order_count }}" min="0"></td>
+				{% else %}
+					<td><input type="number" name="order_count" value="{{ row.order_count }}" min="0"></td>
+				{% endif %}
+				<td><select name="supplier">
+						{% for supplier in suppliers %}
+							{% if supplier == row.supplier %}
+								<option value="{{ row.supplier }}" selected>{{ row.supplier }}</option>
+							{% else %}
+								<option value="{{ supplier }}">{{ supplier }}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	</div>
+
+	<div class="edit">
+        <input class="login-button" type="button" value="вернуться">
+        <input class="login-button" type="button" onclick="saveTableToCsv()" value="отправить поставщикам">
+    </div>
+	</div>
+    <script>
+		delete_btn = document.querySelectorAll('#delete-row-btn');
+		delete_btn.forEach(btn => {
+				btn.addEventListener('click', function() {
+				const row = this.closest('tr');
+				row.remove();
+			});
+		});
+		
+        const addRowButton = document.getElementById('add_row');
+        const table = document.querySelector('table tbody');
+        
+        addRowButton.addEventListener('click', function() {
+          const newRow = document.createElement('tr');
+          const productName = document.querySelector('input[name="product_name"]').value;
+          const productNameForTable = '<input list="products-list" id="product" name="product" value="' + productName + '">';
+          const productCount = parseInt(document.querySelector('input[name="product_count"]').value);
+          const supplier = document.querySelector('select[name="supplier"]').innerHTML;
+		  if (isNaN(productCount)) {
+			return;
+		  }
+          if (!productName || productCount < 0) {
+            return;
+          }
+          const newCells = [
+            document.createElement('td'),
+            document.createElement('td'),
+            document.createElement('td'),
+            document.createElement('td'),
+            document.createElement('td'),
+          ];
+          
+          newCells[0].innerHTML = productNameForTable;
+          newCells[1].textContent = 0;
+          newCells[2].innerHTML = '<input type="number" name="order_count" value="' + productCount + '" min="0">';
+          newCells[3].innerHTML = '<select name="supplier">' + supplier + '</select>';
+          newCells[4].innerHTML = '<button>-</button>';
+          
+          newCells[4].querySelector('button').addEventListener('click', function() {
+            newRow.remove();
+          });
+          
+          newRow.append(...newCells);
+          table.append(newRow);
+          
+          document.querySelector('input[name="product_name"]').value = '';
+          document.querySelector('input[name="product_count"]').value = '';
+        });
+      </script>
+
+	  <script>
+		function saveTableToCsv() {
+
+			var tableData = [];
+			var rows = document.querySelectorAll("#product-list tr");
+			for (var i = 0; i < rows.length; i++) {
+				var row = rows[i];
+				var product = row.querySelector("input[name='product']").value;
+				var consumption = row.querySelector("td:nth-child(2)").innerText;
+				var orderCount = row.querySelector("input[name='order_count']").value;
+				var supplier = row.querySelector("select[name='supplier']").value;
+
+				var rowData = [product, consumption, orderCount, supplier];
+				tableData.push(rowData);
+			}
+
+			// Convert the data to CSV format.
+			var csvData = "";
+			tableData.forEach(function(row) {
+				csvData += row.join(";") + "\n";
+			});
+
+			// Use an XHR request to send the CSV data to your Flask server.
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "/save-table-to-csv");
+			xhr.setRequestHeader("Content-Type", "text/csv");
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					console.log("Table saved to CSV file!");
+				}
+			};
+			xhr.send(csvData);
+			}
+	  </script>
+	
+</body>
+</html>

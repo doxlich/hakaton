@@ -182,7 +182,7 @@ def profile_for_buyer():
         date_str = date_str[1:]
         date_str = date_str[:-4]
         date = datetime.strptime(date_str, '%Y-%m-%d_%H-%M-%S').date()
-        files_data.append((shop_name, date))
+        files_data.append((shop_name, date, file))
     return render_template('profile_for_buyer.html', user = session.get("user"), logged = session.get("logged"), files_data = files_data)
 
 @app.route('/new_person')
@@ -219,6 +219,27 @@ def save_table():
         for row in reader:
             writer.writerow(row)
     return "OK"
+
+@app.route('/buyer_edit')
+def buyer_edit():
+    file_path = request.args.get('file')
+    if not session["logged"]:
+        return "Log in!!!"
+    user = session.get("user")
+    csv_data = request.get_data().decode("utf8")
+    suppliers_names = set()
+    for supplier in suppliers:
+        suppliers_names.add(supplier.supplier)
+    products_dict = {}
+    for product in products:
+        products_dict[product.name] = product.consumption_week
+    data = []
+    with open(f"data/purchaser_lists/{file_path}", "r", newline="") as f:
+        csv_reader = csv.reader(f, delimiter=';')
+        next(csv_reader)  # Skip header row
+        for row in csv_reader:
+            data.append((row[0], row[1], row[2], row[3]))
+    return render_template('buyer_edit.html', user = session.get("user"), products_dict = products_dict, suppliers_names = suppliers_names, data = data, logged = session.get("logged"))
 
 init()
 if __name__ == '__main__':

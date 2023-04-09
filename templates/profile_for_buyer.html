@@ -84,8 +84,8 @@
         <tr>
             <td>{{ row[0] }}</td>
             <td>{{ row[1] }}</td>
-            <td><a class="edit" href="" download="">скачать накладную</a></td>
-            <td>{{ send }}</td>
+            <td><a class="edit" href="buyer_edit?file={{row[2]}}">Изменить</a></td>
+            <td>Отправить</td>
         </tr>
         {% endfor %}
         <tr>
