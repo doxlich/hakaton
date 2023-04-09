@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, session, jsonify, m
 import csv
 from data_classes import Product, Suppplier, User, UserRole
 import pandas as pd
-import ast
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "big_nuts"
@@ -28,10 +28,7 @@ def add_data_to_user(key: str, value: str):
 
     user = session.get("user")
     row_index = df.index[df['name'] == user["name"]].tolist()[0]
-    if type(df.at[row_index, "add_data"]) == type(dict):
-        df.at[row_index, "add_data"][key] = value
-    else:
-        df.at[row_index, "add_data"] = {key: value}
+    df.at[row_index, "cofee_shop"] = value
 
     df.to_csv('data\\users.csv', sep=';', index=False)
 
@@ -100,7 +97,7 @@ def add():
             products_dict = {}
             for product in products:
                 products_dict[product.name] = product.consumption_week
-        return render_template('add.html', data=data, suppliers=suppliers_names, products=products_dict)
+        return render_template('add.html', data=data, suppliers=suppliers_names, products=products_dict, logged = session.get("logged"), user = session.get("user"))
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -160,19 +157,19 @@ def login_ex():
 def profile_for_supplier():
     if not session["logged"]:
         return "Log in!!!"
-    return render_template('profile_for_supplier.html', user = session.get("user"))
+    return render_template('profile_for_supplier.html', user = session.get("user"), logged = session.get("logged"))
 
 @app.route('/profile_for_manager')
 def profile_for_manager():
     if not session["logged"]:
         return "Log in!!!"
-    return render_template('profile_for_manager.html', user = session.get("user"))
+    return render_template('profile_for_manager.html', user = session.get("user"), logged = session.get("logged"))
 
 @app.route('/profile_for_buyer')
 def profile_for_buyer():
     if not session["logged"]:
         return "Log in!!!"
-    return render_template('profile_for_buyer.html', user = session.get("user"))
+    return render_template('profile_for_buyer.html', user = session.get("user"), logged = session.get("logged"))
 
 @app.route('/new_person')
 def new_person():
@@ -193,6 +190,21 @@ def update_user_data():
     add_data_to_user("cofee_shop", cofee_shop)
     response = jsonify({'success': True}) # create a JSON response
     return make_response(response, 200) # return the response with a 200 status code
+
+@app.route('/save-table-to-csv', methods=['POST'])
+def save_table():
+    if not request.method == 'POST':
+        return "GET isn't allowed"
+    if not session["logged"]:
+        return "Log in!!!"
+    user = session.get("user")
+    csv_data = request.get_data().decode("utf8")
+    with open(f"data/purchaser_lists/table_data-{user['name']}-{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.csv", "w", newline="") as f:
+        writer = csv.writer(f)
+        reader = csv.reader(csv_data.splitlines())
+        for row in reader:
+            writer.writerow(row)
+    return "OK"
 
 init()
 if __name__ == '__main__':
