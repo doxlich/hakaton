@@ -154,6 +154,11 @@ a:hover{
     padding-left: 20px;
     padding-right: 20px;
 }
+.profile_name{
+    padding-left: 35px;
+    margin-left: auto;
+    margin-right: auto;
+}
 #enter{
     font-size: 25px;
     margin-bottom: 15px;
