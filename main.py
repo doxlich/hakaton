@@ -175,11 +175,11 @@ def profile_for_buyer():
     return render_template('profile_for_buyer.html', user = session.get("user"))
 
 @app.route('/new_person')
-def profile_for_buyer():
+def new_person():
     return render_template('new_person.html', user = session.get("user"))
 
 @app.route('/start')
-def profile_for_buyer():
+def start_paper():
     return render_template('start.html', user = session.get("user"))
 
 @app.route('/update_user_data', methods=['POST'])
