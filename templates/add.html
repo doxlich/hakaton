@@ -118,7 +118,7 @@
         
         addRowButton.addEventListener('click', function() {
           const newRow = document.createElement('tr');
-          const productName = document.querySelector('input[name="product_name"]').innerHTML;
+          const productName = document.querySelector('input[name="product_name"]').value;
           //const productNameForTable = '<input list="products-list" id="ice-cream-choice" name="ice-cream-choice" value="' + productName + '">';
           const productCount = parseInt(document.querySelector('input[name="product_count"]').value);
           const supplier = document.querySelector('select[name="supplier"]').innerHTML;
