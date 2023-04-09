@@ -43,7 +43,7 @@ form {
     align-items: center;
 
 }
-input[type="text"], select, input[type="email"], input[type="password"],input[type="number"], input[type="list"],  input::placeholder {
+input[type="text"], select, input[type="email"], input[type="password"],input[type="number"], input[list="products-list"],  input::placeholder {
     padding: 10px;
     border-radius: 5px;
     border: none;
