@@ -3,6 +3,7 @@ import csv
 from data_classes import Product, Suppplier, User, UserRole
 import pandas as pd
 from datetime import datetime
+from os import listdir
 
 app = Flask(__name__)
 app.secret_key = "big_nuts"
@@ -169,14 +170,21 @@ def profile_for_manager():
 def profile_for_buyer():
     if not session["logged"]:
         return "Log in!!!"
-    return render_template('profile_for_buyer.html', user = session.get("user"), logged = session.get("logged"))
+    files = listdir('data/purchaser_lists')
+    files_csv = [file for file in files if file.endswith('.csv')]
+    files_data = []
+    for file in files_csv:
+        shop_name, date_str, *_ = file.split('-')[1:]
+        date = datetime.strptime(date_str, '%Y-%m-%d_%H-%M-%S').date()
+        files_data.append((shop_name, date))
+    return render_template('profile_for_buyer.html', user = session.get("user"), logged = session.get("logged"), files_data = files_data)
 
 @app.route('/new_person')
-def profile_for_buyer():
+def new_person():
     return render_template('new_person.html', user = session.get("user"))
 
 @app.route('/start')
-def profile_for_buyer():
+def start():
     return render_template('start.html', user = session.get("user"))
 
 @app.route('/update_user_data', methods=['POST'])
@@ -199,7 +207,7 @@ def save_table():
         return "Log in!!!"
     user = session.get("user")
     csv_data = request.get_data().decode("utf8")
-    with open(f"data/purchaser_lists/table_data-{user['name']}-{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.csv", "w", newline="") as f:
+    with open(f"data/purchaser_lists/table_data-{user['cofee_shop']}-{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.csv", "w", newline="") as f:
         writer = csv.writer(f)
         reader = csv.reader(csv_data.splitlines())
         for row in reader:

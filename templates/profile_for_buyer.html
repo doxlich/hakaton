@@ -60,7 +60,7 @@
 
     <table class="table-sup">
         <tbody class="table-sup-1">
-        <tr>
+        <!-- <tr>
         <td>
             <a>кофейня</a>
         </td>
@@ -73,7 +73,21 @@
         <td>
             <a>Отправить</a>
         </td>
+        </tr> -->
+        <tr>
+            <td><a>кофейня</a></td>
+            <td><a>дата</a></td>
+            <td><a>Редактировать</a></td>
+            <td><a>Отправить</a></td>
         </tr>
+        {% for row in files_data %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td><a class="edit" href="" download="">скачать накладную</a></td>
+            <td>{{ send }}</td>
+        </tr>
+        {% endfor %}
         <tr>
             <td> 
             </td>
