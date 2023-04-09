@@ -78,8 +78,10 @@ def register():
         for user in registered_users:
             if user.name == username:
                 return "Username already exists"
+            if user.email == email:
+                return "Email already exists"
 
-        registered_users.append(User(username, email, UserRole.SUPPLIER.value))
+        registered_users.append(User(username, email, int(user_role)))
         return redirect("/")
     
 @app.route('/login', methods=['POST'])
