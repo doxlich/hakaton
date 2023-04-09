@@ -2,5 +2,10 @@ name;email;pass;role
 Admin1;email@mail.ru;admin111;2
 Admin2;email@mail.ru;admin111;0
 Admin3;email@mail.ru;admin111;1
-Бомбастик;asdas@mail.ru;123;0123;123@mail.ru;123;0
-123;123@mail;123;0
+Бомбастик;asdas@mail.ru;123;0
+123;123@mail.ru;123;0
+123;123@mail;123;0
+Дядя;dada@mail.ru;111;0
+Дядя2;dada@mail.ru;222;0
+Бомбастик2;sdas2@mail.ru;111;1
+koshka2;sdas2222@mail.ru;123;0

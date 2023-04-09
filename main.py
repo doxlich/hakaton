@@ -14,7 +14,7 @@ def get_users():
     global registered_users
     registered_users = []
     with open('data\\users.csv', mode='r', encoding="utf8") as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=';', lineterminator="\n")
+        csv_reader = csv.reader(csv_file, delimiter=';')
         next(csv_reader)  # Skip header row
         for row in csv_reader:
             if row == []:
