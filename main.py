@@ -17,6 +17,8 @@ def get_users():
         csv_reader = csv.reader(csv_file, delimiter=';', lineterminator="\n")
         next(csv_reader)  # Skip header row
         for row in csv_reader:
+            if row == []:
+                continue
             registered_users.append(User(row[0], row[1], row[3]))
 
 def save_user(name: str, email: str, password: str, role: int):
