@@ -54,9 +54,21 @@
 		<a class="nav-button">
 			о том как начать с нами работать
 		</a>
-		<a class="nav-button">
-			вход/регистрация
-		</a>
+		{% if logged %}
+			<div class="nav-button">
+			<a class="profile_name" href= {{account_link}}>
+			<img src="static/profile.png" class="icon">
+			<p class="profile_name">
+			{{user.name}}
+			</p>
+			</a>
+			
+			</div>
+		{% else %}
+			<a href="login_ex" class="nav-button">
+				вход/регистрация
+			</a>
+		{% endif %}
 
 		<datalist id="products-list">
 			{% for el in products %}
@@ -120,7 +132,7 @@
 
 	<div class="edit">
         <input class="login-button" type="button" value="вернуться">
-        <input class="login-button" type="button" value="отправить закупщикам">
+        <input class="login-button" type="button" onclick="saveTableToCsv()" value="отправить закупщику">
     </div>
 	</div>
     <script>
@@ -172,6 +184,41 @@
           document.querySelector('input[name="product_count"]').value = '';
         });
       </script>
+
+	  <script>
+		function saveTableToCsv() {
+
+			var tableData = [];
+			var rows = document.querySelectorAll("#product-list tr");
+			for (var i = 0; i < rows.length; i++) {
+				var row = rows[i];
+				var product = row.querySelector("input[name='product']").value;
+				var consumption = row.querySelector("td:nth-child(2)").innerText;
+				var orderCount = row.querySelector("input[name='order_count']").value;
+				var supplier = row.querySelector("select[name='supplier']").value;
+
+				var rowData = [product, consumption, orderCount, supplier];
+				tableData.push(rowData);
+			}
+
+			// Convert the data to CSV format.
+			var csvData = "";
+			tableData.forEach(function(row) {
+				csvData += row.join(";") + "\n";
+			});
+
+			// Use an XHR request to send the CSV data to your Flask server.
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", "/save-table-to-csv");
+			xhr.setRequestHeader("Content-Type", "text/csv");
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === 4 && xhr.status === 200) {
+					console.log("Table saved to CSV file!");
+				}
+			};
+			xhr.send(csvData);
+			}
+	  </script>
 	
 </body>
 </html>
