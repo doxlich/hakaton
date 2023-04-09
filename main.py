@@ -81,7 +81,9 @@ def register():
             if user.email == email:
                 return "Email already exists"
 
-        registered_users.append(User(username, email, int(user_role)))
+        user = User(username, email, int(user_role))
+        registered_users.append(user)
+        set_logged(user)
         return redirect("/")
     
 @app.route('/login', methods=['POST'])
@@ -94,10 +96,13 @@ def login():
         for user in registered_users:
             if user.name == name or \
                 user.email == name:
-                session["user"] = user
-                session["logged"] = True
+                set_logged(user)
                 return redirect("/")
         return "Wrong username or password"
+
+def set_logged(user: User):
+    session["user"] = user
+    session["logged"] = True
 
 @app.route('/products_edit')
 def product():
