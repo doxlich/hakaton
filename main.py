@@ -19,7 +19,11 @@ def get_users():
         for row in csv_reader:
             if row == []:
                 continue
-            registered_users.append(User(row[0], row[1], row[3]))
+            if len(row) < 4:
+                registered_users.append(User(row[0], row[1], row[3], {}))
+            else:
+                registered_users.append(User(row[0], row[1], row[3], row[4]))
+
 
 def save_user(name: str, email: str, password: str, role: int):
     data_to_save = [name, email, password, role]
@@ -54,7 +58,7 @@ def init():
 def index():
     account_link = "/"
     if session.get("logged"):
-        role = session.get("user")["role"]
+        role = int(session.get("user")["role"])
         if role == UserRole.SUPPLIER.value:
             account_link = "profile_for_supplier"
         elif role == UserRole.MANAGER.value:
@@ -142,15 +146,21 @@ def login_ex():
 
 @app.route('/profile_for_supplier')
 def profile_for_supplier():
-    return render_template('profile_for_supplier.html')
+    if not session["logged"]:
+        return "Log in!!!"
+    return render_template('profile_for_supplier.html', user = session.get("user"))
 
 @app.route('/profile_for_manager')
 def profile_for_manager():
-    return render_template('profile_for_manager.html')
+    if not session["logged"]:
+        return "Log in!!!"
+    return render_template('profile_for_manager.html', user = session.get("user"))
 
 @app.route('/profile_for_buyer')
 def profile_for_buyer():
-    return render_template('profile_for_buyer.html')
+    if not session["logged"]:
+        return "Log in!!!"
+    return render_template('profile_for_buyer.html', user = session.get("user"))
 
 init()
 if __name__ == '__main__':
