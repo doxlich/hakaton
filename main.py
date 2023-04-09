@@ -233,12 +233,13 @@ def buyer_edit():
     products_dict = {}
     for product in products:
         products_dict[product.name] = product.consumption_week
-    with open(f"data/purchaser_lists/{file_path}", "w", newline="") as f:
-        writer = csv.writer(f)
-        reader = csv.reader(csv_data.splitlines())
-        for row in reader:
-            writer.writerow(row)
-    return render_template('buyer_edit.html', user = session.get("user"))
+    data = []
+    with open(f"data/purchaser_lists/{file_path}", "r", newline="") as f:
+        csv_reader = csv.reader(f, delimiter=';')
+        next(csv_reader)  # Skip header row
+        for row in csv_reader:
+            data.append((row[0], row[1], row[2], row[3]))
+    return render_template('buyer_edit.html', user = session.get("user"), products_dict = products_dict, suppliers_names = suppliers_names, data = data, logged = session.get("logged"))
 
 init()
 if __name__ == '__main__':
