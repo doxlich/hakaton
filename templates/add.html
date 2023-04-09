@@ -119,7 +119,7 @@
         addRowButton.addEventListener('click', function() {
           const newRow = document.createElement('tr');
           const productName = document.querySelector('input[name="product_name"]').value;
-          //const productNameForTable = '<input list="products-list" id="ice-cream-choice" name="ice-cream-choice" value="' + productName + '">';
+          const productNameForTable = '<input list="products-list" id="product" name="product" value="' + productName + '">';
           const productCount = parseInt(document.querySelector('input[name="product_count"]').value);
           const supplier = document.querySelector('select[name="supplier"]').innerHTML;
           if (!productName || productCount < 0) {
@@ -133,7 +133,7 @@
             document.createElement('td'),
           ];
           
-          newCells[0].innerHTML = productName;
+          newCells[0].innerHTML = productNameForTable;
           newCells[1].textContent = 0;
           newCells[2].innerHTML = '<input type="number" name="order_count" value="' + productCount + '" min="0">';
           newCells[3].innerHTML = '<select name="supplier">' + supplier + '</select>';
