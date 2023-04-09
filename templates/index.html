@@ -17,9 +17,13 @@
     <a class="nav-button">
         о том как начать с нами работать
     </a>
-    <a href="login_ex" class="nav-button">
-        вход/регистрация
-    </a>
+    {% if logged %}
+        {{user.name}}
+    {% else %}
+        <a href="login_ex" class="nav-button">
+            вход/регистрация
+        </a>
+    {% endif %}
 
 </header>
 
