@@ -19,7 +19,7 @@ def get_users():
         for row in csv_reader:
             registered_users.append(User(row[0], row[1], row[3]))
 
-def save_user(name: str, email: str, password: str, role: UserRole):
+def save_user(name: str, email: str, password: str, role: int):
     data_to_save = [name, email, password, role]
     with open('data\\users.csv', mode='a', encoding="utf8") as csv_file:
         csv_writer = csv.writer(csv_file, delimiter=';')
@@ -91,8 +91,7 @@ def register():
             if user.email == email:
                 return "Email already exists"
 
-        //Save user to csv file
-
+        save_user(username, email, password, int(user_role))
         user = User(username, email, int(user_role))
         registered_users.append(user)
         set_logged(user)
