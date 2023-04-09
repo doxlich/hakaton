@@ -108,7 +108,8 @@ def register():
         email = request.form["email"]
         password = request.form["password"]
         user_role = request.form["user-role"]
-        coffe_shop_name = request.form["coffe_shop_name"]
+        coffe_shop_name = '14'
+        #coffe_shop_name = request.form["coffe_shop_name"]
 
         for user in registered_users:
             if user.name == username:
