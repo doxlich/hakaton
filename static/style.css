@@ -67,6 +67,9 @@ a{
 a:hover{
     color:rgba(255,255,255,0.5)
 }
+.header_fortable{
+    position: relative;
+}
 .icon{
     display: block;
     width: 50px;
@@ -149,15 +152,18 @@ a:hover{
     padding: 10px 20px;
 }
 .edit{
-    display: flex;
-    justify-content: space-between;
-    padding-left: 20px;
-    padding-right: 20px;
+    color:rgb(133, 102, 190);
 }
 .profile_name{
     padding-left: 35px;
     margin-left: auto;
     margin-right: auto;
+}
+.table-sup{
+    width:100%;
+}
+.table-sup-1{
+    width:25%;
 }
 #enter{
     font-size: 25px;
